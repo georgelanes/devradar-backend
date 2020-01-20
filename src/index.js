@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const http = require("http");
+require("dotenv/config");
 
 const routes = require("./routes");
 const { setupWebsockect } = require("./websocket");
@@ -12,14 +13,11 @@ const server = http.Server(app);
 setupWebsockect(server);
 
 mongoose
-  .connect(
-    "mongodb+srv://omnistack:Senha2020@omnistack-wdhtk.mongodb.net/omnistack_db?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000
-    }
-  )
+  .connect(process.env.MONGODB_ATLAS_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000
+  })
   .then(res => console.log("Connected to DB"))
   .catch(err => console.log(err));
 
